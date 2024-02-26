@@ -7,6 +7,7 @@ namespace Assignment
 {
     public class SampleData : ISampleData
     {
+        public SampleData() { }
         // 1.
         public IEnumerable<string> CsvRows { get; } = File.ReadAllLines("People.csv").Skip(1);
         //skip the first row
