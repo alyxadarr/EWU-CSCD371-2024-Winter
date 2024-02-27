@@ -17,7 +17,7 @@ namespace Assignment
         {
             return CsvRows.Select(item => item.Split(',')[6])
                    .OrderBy(state => state)
-                   .Distinct();
+                   .Distinct();//for unique
         }
 
         // 3.

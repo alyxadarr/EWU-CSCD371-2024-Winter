@@ -28,6 +28,19 @@ namespace Assignment.Tests
             string actualList = string.Join(", ", dataSample.GetUniqueSortedListOfStatesGivenCsvRows());
             Assert.Equal(expectedList, actualList);
         }
+        [Fact]
+        public void GetUniqueSortedListOfStatesGivenCsvRows_NonHardCodedList_SuccessfullySorts()
+        {
+            SampleData dataSample = new SampleData();
+
+            string expectedList =  string.Join(", ", dataSample.CsvRows.Select(item => item.Split(',')[6])
+                   .OrderBy(state => state)
+                   .Distinct());
+            string actualList = string.Join(", ", dataSample.GetUniqueSortedListOfStatesGivenCsvRows());
+            Assert.Equal(expectedList, actualList);
+
+
+        }
     }
 
 }
