@@ -17,6 +17,14 @@ namespace Assignment.Tests
             int actualRows = dataSample.CsvRows.Count();
             Assert.Equal(expectedRows, actualRows);
         }
+        [Fact]
+        public void GetUniqueSortedListOfStatesGivenCsvRows_HardCodedList_SuccessfullySortsUniquely()
+        {
+            string expectedList = "AL AZ CA DC FL GA IN KS LA MD MN MO NC NE NH NV NY OH OR PA SC TN TX UT VA WA WV";
+            SampleData dataSample = new SampleData();
+            string actualList = string.Join(" ", dataSample.GetUniqueSortedListOfStatesGivenCsvRows());
+            Assert.Equal(expectedList, actualList);
+        }
     }
 
 }
