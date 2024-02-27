@@ -27,9 +27,13 @@ namespace Assignment
         }
 
         // 4.
-        public IEnumerable<IPerson> People => throw new NotImplementedException();
-
-        // 5.
+        public IEnumerable<IPerson> People => CsvRows.Select(item => item.Split(','))
+                                             .OrderBy(split => split[6])
+                                             .ThenBy(split => split[5])
+                                             .ThenBy(split => split[7])
+                                             .Select(split => new Person(split[1], split[2],
+                                                                          new Address(split[4], split[5], split[6], split[7]),
+                                                                          split[3]));
         public IEnumerable<(string FirstName, string LastName)> FilterByEmailAddress(
             Predicate<string> filter) => throw new NotImplementedException();
 

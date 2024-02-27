@@ -48,6 +48,18 @@ namespace Assignment.Tests
             string actualList = string.Join(", ", dataSample.GetAggregateSortedListOfStatesUsingCsvRows());
             Assert.Equal(expectedList, actualList);
         }
+        [Fact]
+        public void PersonCount_NumOfPeople_ReturnsCorrectNum()
+        {
+            var expectedCount = 50; // Assuming there are 50 people in the CSV rows
+            SampleData dataSample = new SampleData();
+
+            // Act
+            var actualCount = dataSample.People.Count();
+
+            // Assert
+            Assert.Equal(expectedCount, actualCount);
+        }
 
 
 
