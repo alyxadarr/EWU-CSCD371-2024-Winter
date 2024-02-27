@@ -51,13 +51,11 @@ namespace Assignment.Tests
         [Fact]
         public void PersonCount_NumOfPeople_ReturnsCorrectNum()
         {
-            var expectedCount = 50; // Assuming there are 50 people in the CSV rows
+            var expectedCount = 50; 
             SampleData dataSample = new SampleData();
 
-            // Act
             var actualCount = dataSample.People.Count();
 
-            // Assert
             Assert.Equal(expectedCount, actualCount);
         }
 
