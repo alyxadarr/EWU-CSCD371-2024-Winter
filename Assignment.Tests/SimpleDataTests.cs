@@ -23,9 +23,9 @@ namespace Assignment.Tests
         [Fact]
         public void GetUniqueSortedListOfStatesGivenCsvRows_HardCodedList_SuccessfullySortsUniquely()
         {
-            string expectedList = "AL, AZ, CA, DC, FL, GA, IN, KS, LA, MD, MN, MO, MT, NC, NE, NH, NV, NY, OR, PA, SC, TN, TX, UT, VA, WA, WV";
+            string expectedList = "AL AZ CA DC FL GA IN KS LA MD MN MO MT NC NE NH NV NY OR PA SC TN TX UT VA WA WV";
             SampleData dataSample = new SampleData();
-            string actualList = string.Join(", ", dataSample.GetUniqueSortedListOfStatesGivenCsvRows());
+            string actualList = string.Join(" ", dataSample.GetUniqueSortedListOfStatesGivenCsvRows());
             Assert.Equal(expectedList, actualList);
         }
         [Fact]
@@ -38,9 +38,19 @@ namespace Assignment.Tests
                    .Distinct());
             string actualList = string.Join(", ", dataSample.GetUniqueSortedListOfStatesGivenCsvRows());
             Assert.Equal(expectedList, actualList);
-
-
+            //could we use IEnumerable sort for this? idk
         }
+        [Fact]
+        public void GetAggregateSortedListOfStatesUsingCsvRows_HardCodedList_SuccesfullySorts()
+        {
+            string expectedList = "AL, AZ, CA, DC, FL, GA, IN, KS, LA, MD, MN, MO, MT, NC, NE, NH, NV, NY, OR, PA, SC, TN, TX, UT, VA, WA, WV";
+            SampleData dataSample = new SampleData();
+            string actualList = string.Join(", ", dataSample.GetAggregateSortedListOfStatesUsingCsvRows());
+            Assert.Equal(expectedList, actualList);
+        }
+
+
+
     }
 
 }
