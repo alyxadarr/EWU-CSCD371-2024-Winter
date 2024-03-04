@@ -61,7 +61,22 @@ namespace Assignment.Tests
             Assert.Equal(expectedCount, actualCount);
         }
 
+        [Fact]
+        public void FilterByEmail_FiltersCorrectly_Success() {  
+            SampleData sampleData = new();
+            Predicate<string> emailFilter = email => email.EndsWith("@live.com");
 
+            // Act
+            var matchingNames = sampleData.FilterByEmailAddress(emailFilter);
+
+            // Assert
+            Assert.Equal(2, matchingNames.Count()); // Assuming 2 matching emails in the sample data
+            Assert.Contains(("Stern", "Aucutt"), matchingNames);
+            Assert.Contains(("Mayor", "Thurnham"), matchingNames);
+            
+            // Ensure that other names are not included
+            Assert.DoesNotContain(("Charlie", "Brown"), matchingNames);
+        }
 
     }
 
