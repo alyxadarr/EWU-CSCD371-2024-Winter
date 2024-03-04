@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-namespace Assignment.Interfaces;
+namespace Assignment;
 
 public interface ISampleData
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Assignment.Interfaces;
+namespace Assignment;
 
 public interface IAddress
 {
