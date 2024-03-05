@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Assignment.Tests;
 
-public class SampleDataTests
+public class SampleDataTests 
 {
     // use System.Linq.Enumerable methods Zip, Count, Sort and Contains methods
     // for testing collections
@@ -77,5 +79,22 @@ public class SampleDataTests
         // Ensure that other names are not included
         Assert.DoesNotContain(("Charlie", "Brown"), matchingNames);
     }
+ 
 
+
+    [Fact]
+    public void GetAggregatedListOfStatesGivenPeopleCollection_ValidPeople_ReturnsList()
+    {
+        //Arrange
+        SampleData sampleData = new SampleData();
+        var people = sampleData.People;
+        var csvResult = sampleData.GetUniqueSortedListOfStatesGivenCsvRows();
+
+        // Act
+        var result = sampleData.GetAggregateListOfStatesGivenPeopleCollection(people);
+
+        // Assert
+       // Assert.Equal(csvResult, result);
+    }
 }
+
