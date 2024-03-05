@@ -83,7 +83,7 @@ public class SampleDataTests
 
 
     [Fact]
-    public void GetAggregatedListOfStatesGivenPeopleCollection_ValidPeople_ReturnsList()
+    public void GetAggregatedListOfStatesGivenPeopleCollection_ReturnsCorrectList_Success()
     {
         //Arrange
         SampleData sampleData = new SampleData();

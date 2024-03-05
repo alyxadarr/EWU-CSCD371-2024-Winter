@@ -44,8 +44,9 @@ public class SampleData : ISampleData
         IEnumerable<IPerson> people)
     {
         var OnlyStates = People.Select(person => person.Address.State)
-                                                        .OrderBy(state => state)    
-                                                        .Distinct();
+                                                        .Distinct()
+                                                        .OrderByDescending(state => state);
+
 
         string ListOfStates = OnlyStates.Aggregate((state, next) => next + ", " + state);
         return ListOfStates;
