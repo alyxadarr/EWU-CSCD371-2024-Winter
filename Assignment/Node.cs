@@ -8,7 +8,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Assignment;
 
-public class Node<T> 
+public class Node<T> : IEnumerable<T>
 {
 
     // Value of the node
@@ -79,7 +79,20 @@ public class Node<T>
             return false;
         }
 
-   
+    public IEnumerator<T> GetEnumerator()
+    {
+        Node<T> currentNode = this;
+        while (currentNode.Next != this)
+        {
+            yield return currentNode.Value;
+            currentNode = currentNode.Next;
+        }
+    }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+  
 
 }//end of class
 
