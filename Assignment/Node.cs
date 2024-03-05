@@ -8,7 +8,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Assignment;
 
-public class Node<T>
+public class Node<T> 
 {
 
     // Value of the node
@@ -80,5 +80,6 @@ public class Node<T>
         }
 
    
-    }//end of class
+
+}//end of class
 
