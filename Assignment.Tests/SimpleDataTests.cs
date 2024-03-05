@@ -87,14 +87,15 @@ public class SampleDataTests
     {
         //Arrange
         SampleData sampleData = new SampleData();
-        var people = sampleData.People;
-        var csvResult = sampleData.GetUniqueSortedListOfStatesGivenCsvRows();
+        // string people = sampleData.People;
+        string expected = string.Join(", ", sampleData.GetUniqueSortedListOfStatesGivenCsvRows());
 
         // Act
-        var result = sampleData.GetAggregateListOfStatesGivenPeopleCollection(people);
+        string actual = sampleData.GetAggregateListOfStatesGivenPeopleCollection(sampleData.People);
 
         // Assert
-       // Assert.Equal(csvResult, result);
+        Assert.Equal(expected, actual);
     }
 }
+
 
