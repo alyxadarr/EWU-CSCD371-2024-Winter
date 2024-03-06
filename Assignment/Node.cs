@@ -82,11 +82,11 @@ public class Node<T> : IEnumerable<T>
     public IEnumerator<T> GetEnumerator()
     {
         Node<T> currentNode = this;
-        while (currentNode.Next != this)
+        do
         {
             yield return currentNode.Value;
             currentNode = currentNode.Next;
-        }
+        } while (currentNode != this);
     }
     IEnumerator IEnumerable.GetEnumerator()
     {
