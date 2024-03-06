@@ -93,6 +93,48 @@ namespace Assignment.Tests;
             Assert.False(headNode.Exists("third"));
             Assert.False(headNode.Exists("fourth"));
         }
-    }
+
+        [Fact]
+        public void GetEnumerator_Returns_Successful()
+        {
+            // Arrange: Create a circular linked list with some sample values
+            Node<int> headNode = new(4);
+
+            headNode.Append(1);
+            headNode.Append(2);
+            headNode.Append(3);
+
+            // Act: Get the enumerator and collect the values
+            var values = new List<int>();
+            foreach (var value in headNode)
+            {
+                values.Add(value);
+            }
+
+            // Assert: Check if the yielded values match our expectations
+            Assert.Equal(new[] { 4, 3, 2, 1 }, values);
+        }
+
+        [Fact]
+        public void GetEnumerator_ReturnsString_Successful()
+        {
+            // Arrange: Create a circular linked list with some sample values
+            Node<string> headNode = new("one");
+
+            headNode.Append("two");
+            headNode.Next.Append("three");
+            headNode.Next.Next.Append("four");
+
+            // Act: Get the enumerator and collect the values
+            var values = new List<string>();
+            foreach (var value in headNode)
+            {
+                values.Add(value);
+            }
+
+            // Assert: Check if the yielded values match our expectations
+            Assert.Equal(new[] { "one", "two", "three", "four" }, values);
+        }
+}
 
 
