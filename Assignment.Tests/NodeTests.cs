@@ -95,7 +95,7 @@ namespace Assignment.Tests;
         }
 
         [Fact]
-        public void GetEnumerator_Returns_Successful()
+        public static void GetEnumerator_Returns_Successful()
         {
             // Arrange: Create a circular linked list with some sample values
             Node<int> headNode = new(4);
@@ -116,7 +116,7 @@ namespace Assignment.Tests;
         }
 
         [Fact]
-        public void GetEnumerator_ReturnsString_Successful()
+        public static void GetEnumerator_ReturnsString_Successful()
         {
             // Arrange: Create a circular linked list with some sample values
             Node<string> headNode = new("one");

@@ -92,7 +92,9 @@ public class Node<T> : IEnumerable<T>
     {
         return GetEnumerator();
     }
-  
+
+
+
 
 }//end of class
 
