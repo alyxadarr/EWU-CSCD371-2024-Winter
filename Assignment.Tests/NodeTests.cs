@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assignment;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -99,7 +100,7 @@ namespace Assignment.Tests;
     [Fact]
         public void GetEnumerator_Returns_Successful()
         {
-            // Arrange: Create a circular linked list with some sample values
+            // Arrange: initialize headnode and append 
             Node<int> headNode = new(4);
 
             headNode.Append(1);
@@ -107,14 +108,14 @@ namespace Assignment.Tests;
             headNode.Append(3);
             int[] expected = { 4,3,2,1 };
 
-            // Act: Get the enumerator and collect the values
+            // Act
             var values = new List<int>();
             foreach (var value in headNode)
             {
                 values.Add(value);
             }
 
-            // Assert: Check if the yielded values match our expectations
+            // Assert: verify expected and values match
             Assert.Equal(expected, values);
         }
 
@@ -122,7 +123,7 @@ namespace Assignment.Tests;
     [Fact]
         public void GetEnumerator_ReturnsString_Successful()
         {
-            // Arrange: Create a circular linked list with some sample values
+            // Arrange 
             Node<string> headNode = new("one");
 
             headNode.Append("two");
@@ -130,16 +131,36 @@ namespace Assignment.Tests;
             headNode.Next.Next.Append("four");
             string[] expected= {"one", "two", "three", "four"};
 
-            // Act: Get the enumerator and collect the values
+            // Act
             var values = new List<string>();
             foreach (var value in headNode)
             {
                 values.Add(value);
             }
 
-            // Assert: Check if the yielded values match our expectations
+            // Assert
             Assert.Equal(expected, values);
         }
+
+    [Fact]
+    public void ChildItems_ReturnsCorrectNumberOfItems_Successful()
+    {
+        // Arrange
+        Node<int> headNode = new(0); 
+        headNode.Append(1);
+        headNode.Append(2);
+        headNode.Append(3);
+        int[] expected = { 0, 3, 2 }; //appends first so it comes out werid
+
+        // Act
+        var actual = headNode.ChildItems(3); 
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
 }
+
+
 
 

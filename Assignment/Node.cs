@@ -93,7 +93,13 @@ public class Node<T> : IEnumerable<T>
         return GetEnumerator();
     }
 
+    public IEnumerable<T> ChildItems(int maximum)
+    {
+        Node<T>? currentNode = this; // Nullable reference type
 
+        return currentNode;
+        
+    }
 
 
 }//end of class
