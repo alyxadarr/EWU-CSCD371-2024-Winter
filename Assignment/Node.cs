@@ -92,12 +92,16 @@ public class Node<T> : IEnumerable<T>
     {
         return GetEnumerator();
     }
-
     public IEnumerable<T> ChildItems(int maximum)
     {
-        Node<T>? currentNode = this; // Nullable reference type
-
-        return currentNode;
+        Node<T>? currentNode = this;
+        int count = 0;
+            do
+            {
+                yield return currentNode.Value;
+                currentNode= currentNode.Next;
+                count++;
+            } while (count != maximum && currentNode != this);
         
     }
 

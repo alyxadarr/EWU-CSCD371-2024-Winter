@@ -100,13 +100,13 @@ namespace Assignment.Tests;
     [Fact]
         public void GetEnumerator_Returns_Successful()
         {
-            // Arrange: initialize headnode and append 
+            // Arrange: initialize headNode and append 
             Node<int> headNode = new(4);
 
             headNode.Append(1);
             headNode.Append(2);
             headNode.Append(3);
-            int[] expected = { 4,3,2,1 };
+            int[] expected = [4,3,2,1];
 
             // Act
             var values = new List<int>();
@@ -129,7 +129,7 @@ namespace Assignment.Tests;
             headNode.Append("two");
             headNode.Next.Append("three");
             headNode.Next.Next.Append("four");
-            string[] expected= {"one", "two", "three", "four"};
+            string[] expected= ["one", "two", "three", "four"];
 
             // Act
             var values = new List<string>();
@@ -148,9 +148,10 @@ namespace Assignment.Tests;
         // Arrange
         Node<int> headNode = new(0); 
         headNode.Append(1);
-        headNode.Append(2);
-        headNode.Append(3);
-        int[] expected = { 0, 3, 2 }; //appends first so it comes out werid
+        headNode.Next.Append(2);
+        headNode.Next.Next.Append(3);//lazy appending formatting fix
+        headNode.Next.Next.Next.Append(4);
+        int[] expected = [0, 1, 2]; //append is appendFirst so it comes out weird if everything is appended to the headNode
 
         // Act
         var actual = headNode.ChildItems(3); 
