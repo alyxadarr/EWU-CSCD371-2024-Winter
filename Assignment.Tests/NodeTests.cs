@@ -94,8 +94,10 @@ namespace Assignment.Tests;
             Assert.False(headNode.Exists("fourth"));
         }
 
-        [Fact]
-        public static void GetEnumerator_Returns_Successful()
+    
+
+    [Fact]
+        public void GetEnumerator_Returns_Successful()
         {
             // Arrange: Create a circular linked list with some sample values
             Node<int> headNode = new(4);
@@ -103,6 +105,7 @@ namespace Assignment.Tests;
             headNode.Append(1);
             headNode.Append(2);
             headNode.Append(3);
+            int[] expected = { 4,3,2,1 };
 
             // Act: Get the enumerator and collect the values
             var values = new List<int>();
@@ -112,11 +115,12 @@ namespace Assignment.Tests;
             }
 
             // Assert: Check if the yielded values match our expectations
-            Assert.Equal(new[] { 4, 3, 2, 1 }, values);
+            Assert.Equal(expected, values);
         }
 
-        [Fact]
-        public static void GetEnumerator_ReturnsString_Successful()
+
+    [Fact]
+        public void GetEnumerator_ReturnsString_Successful()
         {
             // Arrange: Create a circular linked list with some sample values
             Node<string> headNode = new("one");
@@ -124,6 +128,7 @@ namespace Assignment.Tests;
             headNode.Append("two");
             headNode.Next.Append("three");
             headNode.Next.Next.Append("four");
+            string[] expected= {"one", "two", "three", "four"};
 
             // Act: Get the enumerator and collect the values
             var values = new List<string>();
@@ -133,7 +138,7 @@ namespace Assignment.Tests;
             }
 
             // Assert: Check if the yielded values match our expectations
-            Assert.Equal(new[] { "one", "two", "three", "four" }, values);
+            Assert.Equal(expected, values);
         }
 }
 
