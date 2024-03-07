@@ -45,10 +45,8 @@ public class SampleData : ISampleData
     {
         var OnlyStates = People.Select(person => person.Address.State)
                                                         .Distinct()
-                                                        .OrderByDescending(state => state);
+                                                        .OrderByDescending(state => state).Aggregate((state, next) => next + ", " + state);
 
-
-        string ListOfStates = OnlyStates.Aggregate((state, next) => next + ", " + state);
         return ListOfStates;
     }
 }
