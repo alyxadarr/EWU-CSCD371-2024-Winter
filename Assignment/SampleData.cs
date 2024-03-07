@@ -5,8 +5,10 @@ using System.Linq;
 
 namespace Assignment;
 
-public class SampleData : ISampleData
+public class SampleData(string FileSource) : ISampleData
 {
+// this should be updated depending on how you do checking
+public string FileSource {get; set;} = FileSource;
     // 1.
     public IEnumerable<string> CsvRows { get; } = File.ReadAllLines("People.csv").Skip(1);
     //skip the first row
