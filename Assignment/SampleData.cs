@@ -37,7 +37,6 @@ public class SampleData : ISampleData
     public IEnumerable<(string FirstName, string LastName)> FilterByEmailAddress(
         Predicate<string> filter) => People.Where(person => filter(person.EmailAddress))
                                             .Select(person => (person.FirstName, person.LastName))
-                                               .ToList();
 
     // 6.
     public string GetAggregateListOfStatesGivenPeopleCollection(
