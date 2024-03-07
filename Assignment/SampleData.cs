@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -7,8 +8,8 @@ namespace Assignment;
 
 public class SampleData(string FileSource) : ISampleData
 {
-// this should be updated depending on how you do checking
-public string FileSource {get; set;} = FileSource;
+    // this should be updated depending on how you do checking
+public string FileSource {get;} = FileSource is null ? throw new ArgumentNullException(nameof(FileSource)) : File.Exists(FileSource) ? FileSource : throw new ArgumentException(nameof(FileSource));
     // 1.
     public IEnumerable<string> CsvRows { get; } = File.ReadAllLines("People.csv").Skip(1);
     //skip the first row
@@ -17,7 +18,7 @@ public string FileSource {get; set;} = FileSource;
     public IEnumerable<string> GetUniqueSortedListOfStatesGivenCsvRows()
     {
         return CsvRows.Select(item => item.Split(',')[6])
-               .OrderBy(state => state)
+        .OrderBy(state => state)
                .Distinct();//for unique
     }
 
@@ -37,16 +38,13 @@ public string FileSource {get; set;} = FileSource;
                                                                       split[3]));
     public IEnumerable<(string FirstName, string LastName)> FilterByEmailAddress(
         Predicate<string> filter) => People.Where(person => filter(person.EmailAddress))
-                                            .Select(person => (person.FirstName, person.LastName))
+                                            .Select(person => (person.FirstName, person.LastName));
 
     // 6.
     public string GetAggregateListOfStatesGivenPeopleCollection(
         IEnumerable<IPerson> people)
     {
-        var OnlyStates = People.Select(person => person.Address.State)
-                                                        .Distinct()
-                                                        .OrderByDescending(state => state).Aggregate((state, next) => next + ", " + state);
-
-        return ListOfStates;
+       return People.Select(person => person.Address.State).Distinct()
+                                                        .Aggregate((state, next) => state + ", " + next);
     }
 }
