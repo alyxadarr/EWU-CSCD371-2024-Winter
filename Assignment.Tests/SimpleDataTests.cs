@@ -13,20 +13,19 @@ namespace Assignment.Tests;
 public class SampleDataTests 
 {
 #pragma warning disable CS8618
-    public SampleData DataSample { get; set; }
-#pragma warning restore CS8618
+    public SampleData DataSample { get; private set; }
     //we are going to disable this warning for nullability and testing purposes. We know right below in the setup method that DataSample gets initialized 
-    [Fact]
-    public void SetUp()
+    public SampleDataTests()
     {
-        SampleData DataSample = new SampleData("People.CSV");
+         DataSample = new SampleData("People.csv");
     }
+#pragma warning restore CS8618
+
     // use System.Linq.Enumerable methods Zip, Count, Sort and Contains methods
     // for testing collections
     [Fact]
     public void Count_RowsInPeopleCsv_CorrectAmountCounted()
     {
-        SetUp();       
         int expectedRows = 50;
         int actualRows = DataSample.CsvRows.Count();
         Assert.Equal<int>(expectedRows, actualRows);
@@ -35,14 +34,12 @@ public class SampleDataTests
     public void GetUniqueSortedListOfStatesGivenCsvRows_HardCodedList_SuccessfullySortsUniquely()
     {
         string expectedList = "AL AZ CA DC FL GA IN KS LA MD MN MO MT NC NE NH NV NY OR PA SC TN TX UT VA WA WV";
-        SetUp();
         string actualList = string.Join(" ", DataSample.GetUniqueSortedListOfStatesGivenCsvRows());
         Assert.Equal(expectedList, actualList);
     }
     [Fact]
     public void GetUniqueSortedListOfStatesGivenCsvRows_NonHardCodedList_SuccessfullySorts()
     {
-        SetUp();
         string expectedList =  string.Join(", ", DataSample.CsvRows.Select(item => item.Split(',')[6])
                .OrderBy(state => state)
                .Distinct());
@@ -54,7 +51,6 @@ public class SampleDataTests
     public void GetAggregateSortedListOfStatesUsingCsvRows_HardCodedList_SuccesfullySorts()
     {
         string expectedList = "AL, AZ, CA, DC, FL, GA, IN, KS, LA, MD, MN, MO, MT, NC, NE, NH, NV, NY, OR, PA, SC, TN, TX, UT, VA, WA, WV";
-        SetUp();
         string actualList = string.Join(", ", DataSample.GetAggregateSortedListOfStatesUsingCsvRows());
         Assert.Equal(expectedList, actualList);
     }
@@ -62,7 +58,6 @@ public class SampleDataTests
     public void PersonCount_NumOfPeople_ReturnsCorrectNum()
     {
         var expectedCount = 50; // Assuming there are 50 people in the CSV rows
-        SetUp();
 
         // Act
         var actualCount = DataSample.People.Count();
@@ -73,7 +68,6 @@ public class SampleDataTests
 
     [Fact]
     public void FilterByEmail_FiltersCorrectly_Success() {
-        SetUp();
         Predicate<string> emailFilter = email => email.EndsWith("@live.com", StringComparison.OrdinalIgnoreCase);
 
         // Act
@@ -94,7 +88,6 @@ public class SampleDataTests
     public void GetAggregatedListOfStatesGivenPeopleCollection_ReturnsCorrectList_Success()
     {
         //Arrange
-        SetUp();
         // string people = sampleData.People;
         string expected = string.Join(", ", DataSample.GetUniqueSortedListOfStatesGivenCsvRows());
 
