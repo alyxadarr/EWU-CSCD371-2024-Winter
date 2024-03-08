@@ -7,7 +7,8 @@ public class SampleDataTests
 {
 #pragma warning disable CS8618
     public SampleData DataSample { get; private set; }
-    //we are going to disable the nullable warning for nullability and testing purposes. We know right below in the setup method that DataSample gets initialized 
+    // we are going to disable the nullable warning for initialization and testing purposes.
+    // We know right below in the setup method that DataSample gets initialized so we can safely assume this
     public SampleDataTests()
     {
          DataSample = new SampleData("People.csv");
@@ -79,7 +80,7 @@ public class SampleDataTests
     }
 
     [Fact]
-    public void FilterByEmail_FiltersCorrectly_Success() {
+    public void FilterByEmail_FiltersByName_Success() {
         Predicate<string> emailFilter = email => email.EndsWith("@live.com", StringComparison.OrdinalIgnoreCase);
 
         // Act
@@ -93,9 +94,12 @@ public class SampleDataTests
         // Ensure that other names are not included
         Assert.DoesNotContain(("Charlie", "Brown"), matchingNames);
     }
- 
-
-
+    [Fact]
+    public void FilterByEmailAddress_FilterByEmail_ReturnsCorrectly()
+    {
+        var expectedFilteredEmails = new List<(string, string)> { ("Darline","Brauner"), ("Melisa","Kerslake") };
+        Assert.Equal<int>(expectedFilteredEmails.Count, expectedFilteredEmails.Intersect(DataSample.FilterByEmailAddress((email) => email.Contains(".ne.jp"))).Count());
+    }
     [Fact]
     public void GetAggregatedListOfStatesGivenPeopleCollection_ReturnsCorrectList_Success()
     {
