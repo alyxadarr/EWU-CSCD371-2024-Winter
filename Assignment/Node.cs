@@ -11,10 +11,8 @@ namespace Assignment;
 public class Node<T> : IEnumerable<T>
 {
 
-    // Value of the node
     public T Value { get; set; }
 
-    // Pointer to the next node
     public Node<T> Next { get; private set; }
 
     // Constructor that takes a value
@@ -26,7 +24,6 @@ public class Node<T> : IEnumerable<T>
 
 
     }
-
 
     public override string? ToString()
     {
@@ -105,5 +102,5 @@ public class Node<T> : IEnumerable<T>
         
     }
 
-}//end of class
+}
 

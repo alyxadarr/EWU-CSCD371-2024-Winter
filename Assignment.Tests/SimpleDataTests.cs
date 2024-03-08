@@ -113,7 +113,7 @@ public class SampleDataTests
         Assert.Equal(expected, actual);
     }
     [Fact]
-    public void GetAggregateListOfStatesGivenPeopleCollection_NullPeople_ThrowsArgumentNullException()
+    public void GetAggregateListOfStatesGivenPeopleCollection_NullArgument_ThrowsArgumentNullException()
     {
         Assert.Throws<ArgumentNullException>(() => DataSample.GetAggregateListOfStatesGivenPeopleCollection(null!));
     }
