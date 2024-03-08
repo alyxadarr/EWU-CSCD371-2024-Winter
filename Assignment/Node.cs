@@ -94,17 +94,16 @@ public class Node<T> : IEnumerable<T>
     }
     public IEnumerable<T> ChildItems(int maximum)
     {
-        Node<T>? currentNode = this;
+        Node<T> currentNode = this;
         int count = 0;
-            do
-            {
+           while(currentNode.Next!=this && count<maximum)
+           {       
                 yield return currentNode.Value;
                 currentNode= currentNode.Next;
                 count++;
-            } while (count != maximum && currentNode != this);
+            } 
         
     }
-
 
 }//end of class
 

@@ -30,9 +30,7 @@ public string FileSource {get;} = FileSource is null ? throw new ArgumentNullExc
 
     // 4.
     public IEnumerable<IPerson> People => CsvRows.Select(item => item.Split(','))
-                                         .OrderBy(split => split[6])
-                                         .ThenBy(split => split[5])
-                                         .ThenBy(split => split[7])
+                                         .OrderBy(split => (split[6],split[5],split[7]))
                                          .Select(split => new Person(split[1], split[2],
                                                                       new Address(split[4], split[5], split[6], split[7]),
                                                                       split[3]));
@@ -44,7 +42,7 @@ public string FileSource {get;} = FileSource is null ? throw new ArgumentNullExc
     public string GetAggregateListOfStatesGivenPeopleCollection(
         IEnumerable<IPerson> people)
     {
-       return People.Select(person => person.Address.State).Distinct()
+       return people.Select(person => person.Address.State).Distinct()
                                                         .Aggregate((state, next) => state + ", " + next);
     }
 }

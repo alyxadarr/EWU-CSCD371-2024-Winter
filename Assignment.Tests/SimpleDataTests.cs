@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿
 using Xunit;
 
 namespace Assignment.Tests;
@@ -14,7 +7,7 @@ public class SampleDataTests
 {
 #pragma warning disable CS8618
     public SampleData DataSample { get; private set; }
-    //we are going to disable this warning for nullability and testing purposes. We know right below in the setup method that DataSample gets initialized 
+    //we are going to disable the nullable warning for nullability and testing purposes. We know right below in the setup method that DataSample gets initialized 
     public SampleDataTests()
     {
          DataSample = new SampleData("People.csv");
@@ -55,15 +48,34 @@ public class SampleDataTests
         Assert.Equal(expectedList, actualList);
     }
     [Fact]
-    public void PersonCount_NumOfPeople_ReturnsCorrectNum()
+    public void PeopleCount_NumOfPeople_ReturnsCorrectNum()
     {
-        var expectedCount = 50; // Assuming there are 50 people in the CSV rows
+        var expectedCount = 50; // 50 people in the CSV rows
 
         // Act
         var actualCount = DataSample.People.Count();
 
         // Assert
         Assert.Equal(expectedCount, actualCount);
+    }
+    [Fact]
+    public void People_CSVRows_SortedCorrectly()
+    {
+        List<IPerson> people = DataSample.People.ToList();
+
+        Assert.Equal("AL", people[0].Address.State);
+        Assert.Equal("Mobile", people[0].Address.City);
+        Assert.Equal("37308", people[0].Address.Zip);
+    }
+        [Fact]
+        public void People_CSVRows_SortedCorrectly2()
+        {
+         List<IPerson> people = DataSample.People.ToList();
+
+
+        Assert.Equal("AZ", people[1].Address.State);
+        Assert.Equal("Tucson", people[1].Address.City);
+        Assert.Equal("94123", people[1].Address.Zip);
     }
 
     [Fact]
@@ -88,7 +100,6 @@ public class SampleDataTests
     public void GetAggregatedListOfStatesGivenPeopleCollection_ReturnsCorrectList_Success()
     {
         //Arrange
-        // string people = sampleData.People;
         string expected = string.Join(", ", DataSample.GetUniqueSortedListOfStatesGivenCsvRows());
 
         // Act
@@ -97,6 +108,10 @@ public class SampleDataTests
         // Assert
         Assert.Equal(expected, actual);
     }
+    [Fact]
+    public void GetAggregateListOfStatesGivenPeopleCollection_NullPeople_ThrowsArgumentNullException()
+    {
+        Assert.Throws<ArgumentNullException>(() => DataSample.GetAggregateListOfStatesGivenPeopleCollection(null!));
+    }
 }
-
 
