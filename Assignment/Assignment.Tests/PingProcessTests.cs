@@ -58,18 +58,19 @@ public class PingProcessTests
     public void RunTaskAsync_Success()
     {
         // Do NOT use async/await in this test.
-        Task<PingResult> result = Sut.RunTaskAsync("localhost");
-        AssertValidPingOutput(result.Result);
+        Task<PingResult> pingResult = Sut.RunTaskAsync("localhost");
+        AssertValidPingOutput(pingResult.Result);
         }
 
         [TestMethod]
     public void RunAsync_UsingTaskReturn_Success()
     {
         // Do NOT use async/await in this test.
-       // PingResult result = default;
+        // PingResult result = default;
         // Test Sut.RunAsync("localhost");
-      //  AssertValidPingOutput(result);
-      
+        //  AssertValidPingOutput(result);
+        Task<PingResult> pingResult = Sut.RunAsync("localhost");
+        AssertValidPingOutput(pingResult.Result);
 
     }
 
@@ -82,6 +83,8 @@ public class PingProcessTests
 
         // Test Sut.RunAsync("localhost");
         //AssertValidPingOutput(result);
+        PingResult result = await Sut.RunAsync("localhost");
+        AssertValidPingOutput(result);
     }
 #pragma warning restore CS1998 // Remove this
 
