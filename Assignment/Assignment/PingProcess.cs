@@ -63,6 +63,14 @@ public class PingProcess
         Task task = null!;
         await task;
         throw new NotImplementedException();
+
+
+    }
+    public Task<int> RunLongRunningAsync(ProcessStartInfo startInfo, Action<string?>? progressOutput, Action<string?>? progressError, CancellationToken token)
+    {
+        //Task task = null!;
+        //await task;
+        throw new NotImplementedException();
     }
 
     private Process RunProcessInternal(
