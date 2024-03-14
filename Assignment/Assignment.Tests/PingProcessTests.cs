@@ -105,6 +105,7 @@ public class PingProcessTests
     [ExpectedException(typeof(TaskCanceledException))]
     public void RunAsync_UsingTplWithCancellation_CatchAggregateExceptionWrappingTaskCanceledException()
     {
+        // Use exception.Flatten()
         CancellationTokenSource cancelSource = new CancellationTokenSource();
         CancellationToken cancelToken = cancelSource.Token;
 
@@ -112,21 +113,29 @@ public class PingProcessTests
         {
             Task<PingResult> result = Sut.RunAsync("localhost", cancelToken);
             cancelSource.Cancel();
-            result.Wait(cancelToken);
+            result.Wait();
         }
         catch (AggregateException ex)
         {
-            ex.Handle(inner =>
+            ex.Flatten().Handle(inner =>
             {
                 if (inner is TaskCanceledException)
-                    throw inner;
-                return false;
+                {
+                    throw inner;  //Rethrow TaskCanceledException to satisfy expected exception
+                }
+
+                return false;  //Indicates we have not handled other exceptions, so they are still propagated.
             });
+
+            // If no TaskCanceledException was found (though one should be), rethrow the original AggregateException.
+            // However, in this structure, we should never hit this point with TaskCanceledException present.
+            throw;
         }
     }
-  
+ 
 
-     [TestMethod]
+
+    [TestMethod]
     async public Task RunAsync_MultipleHostAddresses_True()
     {
         // Pseudo Code - don't trust it!!!
