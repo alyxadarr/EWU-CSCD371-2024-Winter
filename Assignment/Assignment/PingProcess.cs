@@ -28,6 +28,7 @@ public class PingProcess
     public Task<PingResult> RunTaskAsync(string hostNameOrAddress)
     {
         throw new NotImplementedException();
+     
     }
 
     async public Task<PingResult> RunAsync(
