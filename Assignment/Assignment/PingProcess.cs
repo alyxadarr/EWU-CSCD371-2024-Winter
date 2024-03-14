@@ -60,16 +60,26 @@ public class PingProcess
     async public Task<PingResult> RunLongRunningAsync(
         string hostNameOrAddress, CancellationToken cancellationToken = default)
     {
-        Task task = null!;
-        await task;
-        throw new NotImplementedException();
+        //Task task = null!;
+       // await task;
+       // throw new NotImplementedException();
+        StartInfo.Arguments = hostNameOrAddress;
+        StringBuilder? stringBuilder = null;
+        void updateOutput(string? output)
+        {
+            stringBuilder ??= new StringBuilder();
+            stringBuilder.AppendLine(output);
+        }
+        int exitCode = await RunLongRunningAsync(StartInfo, updateOutput, default, cancellationToken);
+        PingResult result = new PingResult(exitCode, stringBuilder?.ToString());
+        return result;
 
 
     }
-    public Task<int> RunLongRunningAsync(ProcessStartInfo startInfo, Action<string?>? progressOutput, Action<string?>? progressError, CancellationToken token)
+    async public Task<int> RunLongRunningAsync(ProcessStartInfo startInfo, Action<string?>? progressOutput, Action<string?>? progressError, CancellationToken token)
     {
-        //Task task = null!;
-        //await task;
+        Task task = null!;
+        await task;
         throw new NotImplementedException();
     }
 
