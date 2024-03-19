@@ -222,17 +222,13 @@ namespace IntelliTect.TestTools;
         {
 #pragma warning disable 56506
 
-            if (pattern == null)
-            {
-                throw new ArgumentNullException(nameof(pattern));
-            }
+            ArgumentNullException.ThrowIfNull(pattern);
 
-            if (charsNotToEscape == null)
-            {
-                throw new ArgumentNullException(nameof(charsNotToEscape));
-            }
 
-            char[] temp = new char[(pattern.Length * 2) + 1];
+            ArgumentNullException.ThrowIfNull(charsNotToEscape);
+
+
+        char[] temp = new char[(pattern.Length * 2) + 1];
             int tempIndex = 0;
 
             for (int i = 0; i < pattern.Length; i++)
@@ -334,12 +330,10 @@ namespace IntelliTect.TestTools;
         public static string Unescape(
             string pattern, char escapeCharacter)
         {
-            if (pattern == null)
-            {
-                throw new ArgumentNullException(nameof(pattern));
-            }
+            ArgumentNullException.ThrowIfNull(pattern);
 
-            char[] temp = new char[pattern.Length];
+
+        char[] temp = new char[pattern.Length];
             int tempIndex = 0;
             bool prevCharWasEscapeChar = false;
 
