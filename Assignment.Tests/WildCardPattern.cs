@@ -403,7 +403,7 @@ namespace IntelliTect.TestTools;
             // https://stackoverflow.com/questions/140926/normalize-newlines-in-c-sharp
             input = Regex.Replace(input, @"\r\n|\n\r|\n|\r", Environment.NewLine);
 
-            if (trimTrailingNewline && input.EndsWith(Environment.NewLine))
+            if (trimTrailingNewline && input.EndsWith(Environment.NewLine, StringComparison.Ordinal))
             {
                 input = input.Substring(0, input.Length - Environment.NewLine.Length);
             }
@@ -622,30 +622,33 @@ namespace IntelliTect.TestTools;
 
             parser.EndWildcardPattern();
         }
-
-        internal static Exception NewWildcardPatternException(string invalidPattern)
+   
+      
+    
+    internal static Exception NewWildcardPatternException(string invalidPattern)
         {
-            return new Exception(
+            return new ArgumentException(
                     $"The wildcard pattern, '{invalidPattern}', is invalid.");
         }
     };
 
-    /// <summary>
-    /// Convert a string with wild cards into its equivalent regex
-    /// </summary>
-    /// <remarks>
-    /// A list of glob patterns and their equivalent regexes
-    ///
-    ///  glob pattern      regex
-    /// -------------     -------
-    /// *foo*              foo
-    /// foo                ^foo$
-    /// foo*bar            ^foo.*bar$
-    /// foo`*bar           ^foo\*bar$
-    ///
-    /// for a more cases see the unit-test file RegexTest.cs
-    /// </remarks>
-    internal sealed class WildcardPatternToRegexParser : WildcardPatternParser
+
+/// <summary>
+/// Convert a string with wild cards into its equivalent regex
+/// </summary>
+/// <remarks>
+/// A list of glob patterns and their equivalent regexes
+///
+///  glob pattern      regex
+/// -------------     -------
+/// *foo*              foo
+/// foo                ^foo$
+/// foo*bar            ^foo.*bar$
+/// foo`*bar           ^foo\*bar$
+///
+/// for a more cases see the unit-test file RegexTest.cs
+/// </remarks>
+internal sealed class WildcardPatternToRegexParser : WildcardPatternParser
     {
         private StringBuilder _regexPattern;
         private RegexOptions _regexOptions;
