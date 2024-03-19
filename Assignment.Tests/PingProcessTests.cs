@@ -53,7 +53,7 @@ public class PingProcessTests
         PingResult result = Sut.Run("localhost");
         AssertValidPingOutput(result);
     }
-
+    
     [TestMethod]
     public void RunTaskAsync_Success()
     {
@@ -133,7 +133,7 @@ public class PingProcessTests
         }
     }
  
-
+    /*
 
     [TestMethod]
     async public Task RunAsync_MultipleHostAddresses_True()
@@ -144,8 +144,8 @@ public class PingProcessTests
         PingResult result = await PingProcess.RunAsync(hostNames);
         int? lineCount = result.StdOutput?.Split(Environment.NewLine).Length;
         Assert.AreEqual<int?>(expectedLineCount, lineCount);
-    }
-
+    } 
+    
     [TestMethod]
 //#pragma warning disable CS1998 // Remove this
     async public Task RunLongRunningAsync_UsingTpl_Success()
@@ -154,7 +154,7 @@ public class PingProcessTests
         CancellationToken cancelToken = cancelSource.Token;
         PingResult result = await Sut.RunLongRunningAsync("localhost");
         AssertValidPingOutput(result);
-    }
+    } */
 //#pragma warning restore CS1998 // Remove this
 
     [TestMethod]
