@@ -164,8 +164,7 @@ namespace IntelliTect.TestTools;
         /// <returns></returns>
         public static WildcardPattern Get(string pattern, WildcardOptions options)
         {
-            if (pattern == null)
-                throw new ArgumentNullException(nameof(pattern));
+            ArgumentNullException.ThrowIfNull(pattern);
 
             if (pattern.Length == 1 && pattern[0] == '*')
                 return s_matchAllIgnoreCasePattern;
