@@ -41,9 +41,9 @@ public class PingProcessTests
     [TestMethod]
     public void Run_InvalidAddressOutput_Success()
     {
-        (int exitCode, string? stdOutput) = Sut.Run("badaddress");
+        (int exitCode, string? stdOutput, string? errorCode) = Sut.Run("badaddress");
         Assert.IsFalse(string.IsNullOrWhiteSpace(stdOutput));
-        stdOutput = WildcardPattern.NormalizeLineEndings(stdOutput!.Trim());
+        stdOutput = WildcardPattern.NormalizeLineEndings(errorCode!.Trim());
         Assert.AreEqual<string?>(
             "ping: badaddress: Temporary failure in name resolution".Trim(),
             stdOutput,
