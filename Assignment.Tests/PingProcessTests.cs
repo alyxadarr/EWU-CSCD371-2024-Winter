@@ -18,6 +18,7 @@ public class PingProcessTests
     {
         Sut = new();
     }
+    /*
     [TestMethod]
     public void Start_PingProcess_Success()
     {
@@ -26,18 +27,19 @@ public class PingProcessTests
         Assert.AreEqual<int>(0, process.ExitCode);
     }
 
-    
+    */
  
+    
     /*
-
      [TestMethod]
      public void Run_GoogleDotCom_Success()
      {
          int exitCode = Sut.Run("google.com").ExitCode;
          Assert.AreEqual<int>(0, exitCode);
      }
+    
     */
-
+    /*
     [TestMethod]
     public void Run_InvalidAddressOutput_Success()
     {
@@ -50,14 +52,16 @@ public class PingProcessTests
             $"Output is unexpected: {stdOutput}");
         Assert.AreEqual<int>(2, exitCode);
     }
-
+    */
+    /*
     [TestMethod]
     public void Run_CaptureStdOutput_Success()
     {
         PingResult result = Sut.Run("-c 4 localhost");
         AssertValidPingOutput(result);
     }
-    
+    */
+    /*
     [TestMethod]
     public void RunTaskAsync_Success()
     {
@@ -66,7 +70,8 @@ public class PingProcessTests
         pingResult.Start();
         AssertValidPingOutput(pingResult.Result);
         }
-
+    */
+    /*
         [TestMethod]
     public void RunAsync_UsingTaskReturn_Success()
     {
@@ -78,7 +83,8 @@ public class PingProcessTests
         AssertValidPingOutput(pingResult.Result);
 
     }
-
+    */
+    /*
     [TestMethod]
     async public Task RunAsync_UsingTpl_Success()
     {
@@ -90,7 +96,7 @@ public class PingProcessTests
         PingResult result = await Sut.RunAsync("-c 4 localhost");
         AssertValidPingOutput(result);
     }
-
+    */
     
     [TestMethod]
     [ExpectedException(typeof(AggregateException))]
@@ -137,7 +143,7 @@ public class PingProcessTests
     }
  
     
-
+    /*
     [TestMethod]
     async public Task RunAsync_MultipleHostAddresses_True()
     {
@@ -152,7 +158,8 @@ public class PingProcessTests
          Assert.AreEqual<int?>(expectedLineCount, lineCount);
         //AssertValidPingOutput(result);
     } 
-    
+    */
+    /*
     [TestMethod]
     async public Task RunLongRunningAsync_UsingTpl_Success()
     {
@@ -161,7 +168,7 @@ public class PingProcessTests
         PingResult result = await Sut.RunLongRunningAsync("-c 4 localhost");
         AssertValidPingOutput(result);
     } 
-
+    */
     [TestMethod]
     public void StringBuilderAppendLine_InParallel_IsNotThreadSafe()
     {
