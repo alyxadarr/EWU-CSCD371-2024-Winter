@@ -45,7 +45,7 @@ public class PingProcessTests
         Assert.IsFalse(string.IsNullOrWhiteSpace(stdOutput));
         stdOutput = WildcardPattern.NormalizeLineEndings(stdOutput!.Trim());
         Assert.AreEqual<string?>(
-            "ping: badaddress: Temporary failure in name resolution".Trim(),
+            "Ping request could not find host badaddress. Please check the name and try again.".Trim(),
             stdOutput,
             $"Output is unexpected: {stdOutput}");
         Assert.AreEqual<int>(2, exitCode);
@@ -80,7 +80,6 @@ public class PingProcessTests
     }
 
     [TestMethod]
-//#pragma warning disable CS1998 // Remove this
     async public Task RunAsync_UsingTpl_Success()
     {
         // DO use async/await in this test.
@@ -91,9 +90,8 @@ public class PingProcessTests
         PingResult result = await Sut.RunAsync("-c 4 localhost");
         AssertValidPingOutput(result);
     }
-//#pragma warning restore CS1998 // Remove this
 
-
+    
     [TestMethod]
     [ExpectedException(typeof(AggregateException))]
     public void RunAsync_UsingTplWithCancellation_CatchAggregateExceptionWrapping()
