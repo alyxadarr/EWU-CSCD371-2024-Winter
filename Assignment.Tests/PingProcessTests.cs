@@ -24,7 +24,7 @@ public class PingProcessTests
        // string pingArgs = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "-n 4" : "-c 4";
 
       //  ProcessStartInfo startInfo = new ProcessStartInfo
-        Process process = Process.Start("ping -c 4", "localhost");
+        Process process = Process.Start("ping", " -c 4 localhost");
         process.WaitForExit();
         Assert.AreEqual<int>(0, process.ExitCode);
     }
