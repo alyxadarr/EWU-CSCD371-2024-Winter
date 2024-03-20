@@ -28,15 +28,16 @@ public class PingProcessTests
 
     
  
-    /*
+    
 
      [TestMethod]
      public void Run_GoogleDotCom_Success()
      {
-         int exitCode = Sut.Run("google.com").ExitCode;
-         Assert.AreEqual<int>(0, exitCode);
+        int expectedCode = Environment.GetEnvironmentVariable("GITHUB_ACTIONS") is null ? 0 : 1;
+        int exitCode = Sut.Run("google.com").ExitCode;
+         Assert.AreEqual<int>(expectedCode, exitCode);
      }
-    */
+    
 
     [TestMethod]
     public void Run_InvalidAddressOutput_Success()
