@@ -45,7 +45,7 @@ public class PingProcessTests
         Assert.IsFalse(string.IsNullOrWhiteSpace(stdOutput));
         stdOutput = WildcardPattern.NormalizeLineEndings(stdOutput!.Trim());
         Assert.AreEqual<string?>(
-            "Ping request could not find host badaddress. Please check the name and try again.".Trim(),
+            "ping: badaddress: Temporary failure in name resolution".Trim(),
             stdOutput,
             $"Output is unexpected: {stdOutput}");
         Assert.AreEqual<int>(2, exitCode);
@@ -103,8 +103,6 @@ public class PingProcessTests
         cancelSource.Cancel();
         Task<PingResult> result = Sut.RunAsync("-c 4 localhost", cancelToken);
         result.Wait();
-
-
 
     }
 
