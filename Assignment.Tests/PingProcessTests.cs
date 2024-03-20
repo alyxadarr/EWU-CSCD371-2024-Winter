@@ -21,26 +21,12 @@ public class PingProcessTests
     [TestMethod]
     public void Start_PingProcess_Success()
     {
-        // Determine the correct ping arguments based on the OS platform.
-        string pingArgs = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "-n 4" : "-c 4";
+       // string pingArgs = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "-n 4" : "-c 4";
 
-        // Configure the process start information.
-        ProcessStartInfo startInfo = new ProcessStartInfo
-        {
-            FileName = "ping",
-            Arguments = $"{pingArgs} localhost",
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true
-        };
-
-        // Start the process and ensure it is not null.
-        using Process process = Process.Start(startInfo) ?? throw new InvalidOperationException("Failed to start ping process.");
-
+      //  ProcessStartInfo startInfo = new ProcessStartInfo
+        Process process = Process.Start("ping -c 4", "localhost");
         process.WaitForExit();
-
-        // Your test assertions can follow here.
-        Assert.AreEqual(0, process.ExitCode);
+        Assert.AreEqual<int>(0, process.ExitCode);
     }
 
    /*
