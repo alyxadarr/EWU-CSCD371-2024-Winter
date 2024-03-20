@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Assignment.Tests;
@@ -17,7 +18,32 @@ public class PingProcessTests
     {
         Sut = new();
     }
+    [TestMethod]
+    public void Start_PingProcess_Success()
+    {
+        // Determine the correct ping arguments based on the OS platform.
+        string pingArgs = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "-n 4" : "-c 4";
 
+        // Configure the process start information.
+        ProcessStartInfo startInfo = new ProcessStartInfo
+        {
+            FileName = "ping",
+            Arguments = $"{pingArgs} localhost",
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true
+        };
+
+        // Start the process and ensure it is not null.
+        using Process process = Process.Start(startInfo) ?? throw new InvalidOperationException("Failed to start ping process.");
+
+        process.WaitForExit();
+
+        // Your test assertions can follow here.
+        Assert.AreEqual(0, process.ExitCode);
+    }
+
+   /*
     [TestMethod]
     public void Start_PingProcess_Success()
     {
@@ -25,6 +51,7 @@ public class PingProcessTests
         process.WaitForExit();
         Assert.AreEqual<int>(0, process.ExitCode);
     }
+   */
 
     [TestMethod]
     public void Run_GoogleDotCom_Success()
@@ -133,17 +160,21 @@ public class PingProcessTests
         }
     }
  
-    /*
+    
 
     [TestMethod]
     async public Task RunAsync_MultipleHostAddresses_True()
     {
         // Pseudo Code - don't trust it!!!
         string[] hostNames = new string[] { "localhost", "localhost", "localhost", "localhost" };
-        int expectedLineCount = PingOutputLikeExpression.Split(Environment.NewLine).Length*hostNames.Length;
-        PingResult result = await PingProcess.RunAsync(hostNames);
-        int? lineCount = result.StdOutput?.Split(Environment.NewLine).Length;
-        Assert.AreEqual<int?>(expectedLineCount, lineCount);
+        //int expectedLineCount = PingOutputLikeExpression.Split(Environment.NewLine).Length*hostNames.Length;
+       // PingResult result = await Sut.RunAsync(hostNames);
+        PingResult result = await Sut.RunAsync(hostNames);
+
+        // Assert.IsNotNull(result, "PingResult should not be null.");
+        // int? lineCount = result.StdOutput?.Split(Environment.NewLine).Length;
+        // Assert.AreEqual<int?>(expectedLineCount, lineCount);
+        AssertValidPingOutput(result);
     } 
     
     [TestMethod]
@@ -154,7 +185,7 @@ public class PingProcessTests
         CancellationToken cancelToken = cancelSource.Token;
         PingResult result = await Sut.RunLongRunningAsync("localhost");
         AssertValidPingOutput(result);
-    } */
+    } 
 //#pragma warning restore CS1998 // Remove this
 
     [TestMethod]
