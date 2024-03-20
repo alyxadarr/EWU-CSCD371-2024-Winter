@@ -21,31 +21,28 @@ public class PingProcessTests
     [TestMethod]
     public void Start_PingProcess_Success()
     {
-       // string pingArgs = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "-n 4" : "-c 4";
-
-      //  ProcessStartInfo startInfo = new ProcessStartInfo
-        Process process = Process.Start("ping", " -c 4 localhost");
+        Process process = Process.Start("ping", "-n 4 localhost");
         process.WaitForExit();
         Assert.AreEqual<int>(0, process.ExitCode);
     }
 
-   /*
-    [TestMethod]
-    public void Start_PingProcess_Success()
-    {
-        Process process = Process.Start("ping", "localhost");
-        process.WaitForExit();
-        Assert.AreEqual<int>(0, process.ExitCode);
-    }
-   
+    /*
+     [TestMethod]
+     public void Start_PingProcess_Success()
+     {
+         Process process = Process.Start("ping", "localhost");
+         process.WaitForExit();
+         Assert.AreEqual<int>(0, process.ExitCode);
+     }
 
-    [TestMethod]
-    public void Run_GoogleDotCom_Success()
-    {
-        int exitCode = Sut.Run("google.com").ExitCode;
-        Assert.AreEqual<int>(0, exitCode);
-    }
-   */
+
+     [TestMethod]
+     public void Run_GoogleDotCom_Success()
+     {
+         int exitCode = Sut.Run("google.com").ExitCode;
+         Assert.AreEqual<int>(0, exitCode);
+     }
+    */
 
     [TestMethod]
     public void Run_InvalidAddressOutput_Success()
@@ -57,7 +54,7 @@ public class PingProcessTests
             "Ping request could not find host badaddress. Please check the name and try again.".Trim(),
             stdOutput,
             $"Output is unexpected: {stdOutput}");
-        Assert.AreEqual<int>(2, exitCode);//in linux exit code is 2 
+        Assert.AreEqual<int>(1, exitCode);
     }
 
     [TestMethod]
