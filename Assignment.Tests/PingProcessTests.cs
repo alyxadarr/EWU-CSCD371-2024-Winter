@@ -21,7 +21,7 @@ public class PingProcessTests
     [TestMethod]
     public void Start_PingProcess_Success()
     {
-        Process process = Process.Start("ping", "-n 4 localhost");
+        Process process = Process.Start("ping", "-c 4 localhost");
         process.WaitForExit();
         Assert.AreEqual<int>(0, process.ExitCode);
     }
@@ -54,13 +54,13 @@ public class PingProcessTests
             "Ping request could not find host badaddress. Please check the name and try again.".Trim(),
             stdOutput,
             $"Output is unexpected: {stdOutput}");
-        Assert.AreEqual<int>(1, exitCode);
+        Assert.AreEqual<int>(2, exitCode);
     }
 
     [TestMethod]
     public void Run_CaptureStdOutput_Success()
     {
-        PingResult result = Sut.Run("localhost");
+        PingResult result = Sut.Run("-c 4 localhost");
         AssertValidPingOutput(result);
     }
     
@@ -68,7 +68,7 @@ public class PingProcessTests
     public void RunTaskAsync_Success()
     {
         // Do NOT use async/await in this test.
-        Task<PingResult> pingResult = Sut.RunTaskAsync("localhost");
+        Task<PingResult> pingResult = Sut.RunTaskAsync("-c 4 localhost");
         AssertValidPingOutput(pingResult.Result);
         }
 
@@ -79,7 +79,7 @@ public class PingProcessTests
         // PingResult result = default;
         // Test Sut.RunAsync("localhost");
         //  AssertValidPingOutput(result);
-        Task<PingResult> pingResult = Sut.RunAsync("localhost");
+        Task<PingResult> pingResult = Sut.RunAsync("-c 4 localhost");
         AssertValidPingOutput(pingResult.Result);
 
     }
@@ -93,7 +93,7 @@ public class PingProcessTests
 
         // Test Sut.RunAsync("localhost");
         //AssertValidPingOutput(result);
-        PingResult result = await Sut.RunAsync("localhost");
+        PingResult result = await Sut.RunAsync("-c 4 localhost");
         AssertValidPingOutput(result);
     }
 //#pragma warning restore CS1998 // Remove this
@@ -121,7 +121,7 @@ public class PingProcessTests
 
         try
         {
-            Task<PingResult> result = Sut.RunAsync("localhost", cancelToken);
+            Task<PingResult> result = Sut.RunAsync("-c 4 localhost", cancelToken);
             cancelSource.Cancel();
             result.Wait();
         }
@@ -149,7 +149,7 @@ public class PingProcessTests
     async public Task RunAsync_MultipleHostAddresses_True()
     {
         // Pseudo Code - don't trust it!!!
-        string[] hostNames = new string[] { "localhost", "localhost", "localhost", "localhost" };
+        string[] hostNames = new string[] { "-c 4 localhost", "-c 4 localhost", "-c 4 localhost", "-c 4 localhost" };
         //int expectedLineCount = PingOutputLikeExpression.Split(Environment.NewLine).Length*hostNames.Length;
        // PingResult result = await Sut.RunAsync(hostNames);
         PingResult result = await PingProcess.RunAsync(hostNames);
