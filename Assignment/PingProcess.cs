@@ -44,7 +44,7 @@ public class PingProcess
          return await task.WaitAsync(cancellationToken);
     }
 
-    async static public  Task<PingResult> RunAsync(params string[] hostNameOrAddresses)
+    async public  Task<PingResult> RunAsync(params string[] hostNameOrAddresses)
     {
         StringBuilder? stringBuilder = null;
         ParallelQuery<Task<int>>? all = hostNameOrAddresses.AsParallel().Select(async item =>
