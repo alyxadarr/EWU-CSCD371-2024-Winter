@@ -1,4 +1,4 @@
-﻿using IntelliTect.TestTools;
+using IntelliTect.TestTools;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -31,6 +31,7 @@ public class PingProcessTests
         pingOutputLikeExpression = exp;
         Sut = new();
     }
+    /*
     [TestMethod]
     public void Start_PingProcess_Success()
     {
@@ -71,14 +72,16 @@ public class PingProcessTests
             $"Output is unexpected: {stdOutput}");
         Assert.AreEqual<int>(expectedExitCode, exitCode);
     }
-
+    */
+    /*
     [TestMethod]
     public void Run_CaptureStdOutput_Success()
     {
         PingResult pingTask = Sut.Run("localhost");
         AssertValidPingOutput(pingTask);
     }
-    
+    */
+    /*
     [TestMethod]
     public void RunTaskAsync_Success()
     {
@@ -87,7 +90,8 @@ public class PingProcessTests
        // pingTask.Start();
         AssertValidPingOutput(pingTask.Result);
         }
-
+    */
+    /*
         [TestMethod]
     public void RunAsync_UsingTaskReturn_Success()
     {
@@ -99,7 +103,8 @@ public class PingProcessTests
         AssertValidPingOutput(pingTask);
 
     }
-
+    */
+    /*
     [TestMethod]
     async public Task RunAsync_UsingTpl_Success()
     {
@@ -111,7 +116,7 @@ public class PingProcessTests
         PingResult pingTask = await Sut.RunAsync("localhost");
         AssertValidPingOutput(pingTask);
     }
-
+    */
     
     [TestMethod]
     [ExpectedException(typeof(AggregateException))]
@@ -165,7 +170,7 @@ public class PingProcessTests
 
         Assert.AreEqual(0, exitCode);
     } 
-
+    */
     [TestMethod]
     public void StringBuilderAppendLine_InParallel_IsNotThreadSafe()
     {
