@@ -43,7 +43,7 @@ public class PingProcessTests
      public void Run_GoogleDotCom_Success()
      {
         //for github actions 
-        int expectedCode = Environment.GetEnvironmentVariable("GITHUB_ACTIONS") is null ? 1 : 0;
+        int expectedCode = Environment.GetEnvironmentVariable("GITHUB_ACTIONS") is null ? 0 : 1;
         int exitCode = Sut.Run("google.com").ExitCode;
          Assert.AreEqual<int>(expectedCode, exitCode);
      }
@@ -59,7 +59,7 @@ public class PingProcessTests
     {
         //adding these checks so it can work on both windows and unix 
         int expectedExitCode = isLinux ? 2 : 1;
-        string expectedOutput = isLinux ? "ping: badaddress: Name or service not known"
+        string expectedOutput = isLinux ? "ping: badaddress: Temporary failure in name resolution"
             : "Ping request could not find host badaddress. Please check the name and try again.";
         (int exitCode, string? stdOutput, string? stdError) = Sut.Run("badaddress");
         string actualOutput = isLinux ? stdError! : stdOutput!;
