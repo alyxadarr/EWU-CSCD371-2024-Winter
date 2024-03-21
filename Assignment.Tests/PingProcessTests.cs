@@ -15,9 +15,12 @@ namespace Assignment.Tests;
 public class PingProcessTests
 {
     PingProcess Sut { get; set; } = new();
+
+#pragma warning disable CS8618
     bool isLinux { get; set; }
-    string pingArgs { get; set; } = "";
+    string pingArgs { get; set; }
     string pingOutputLikeExpression { get; set; } = "";
+#pragma warning restore CS8618
 
 
 
@@ -39,14 +42,14 @@ public class PingProcessTests
         Assert.AreEqual<int>(0, process.ExitCode);
     }
 
-     [TestMethod]
-     public void Run_GoogleDotCom_Success()
-     {
+    [TestMethod]
+    public void Run_GoogleDotCom_Success()
+    {
         //for github actions 
         int expectedCode = Environment.GetEnvironmentVariable("GITHUB_ACTIONS") is null ? 0 : 1;
         int exitCode = Sut.Run("google.com").ExitCode;
-         Assert.AreEqual<int>(expectedCode, exitCode);
-     }
+        Assert.AreEqual<int>(expectedCode, exitCode);
+    }
     [TestMethod]
     public void Run_LocalHost_Success()
     {
@@ -78,17 +81,17 @@ public class PingProcessTests
         PingResult pingTask = Sut.Run("localhost");
         AssertValidPingOutput(pingTask);
     }
-    
+
     [TestMethod]
     public void RunTaskAsync_Success()
     {
         // Do NOT use async/await in this test.
         Task<PingResult> pingTask = Sut.RunTaskAsync("localhost");
-       // pingTask.Start();
+        // pingTask.Start();
         AssertValidPingOutput(pingTask.Result);
-        }
+    }
 
-        [TestMethod]
+    [TestMethod]
     public void RunAsync_UsingTaskReturn_Success()
     {
         // Do NOT use async/await in this test.
@@ -112,13 +115,13 @@ public class PingProcessTests
         AssertValidPingOutput(pingTask);
     }
 
-    
+
     [TestMethod]
     [ExpectedException(typeof(AggregateException))]
     public void RunAsync_UsingTplWithCancellation_CatchAggregateExceptionWrapping()
     {
         CancellationTokenSource cancelSource = new CancellationTokenSource();
-       // CancellationToken cancelToken = cancelSource.Token;
+        // CancellationToken cancelToken = cancelSource.Token;
         cancelSource.Cancel();
         Task<PingResult> pingTask = Sut.RunAsync("localhost", cancelSource.Token);
         pingTask.Wait();
@@ -142,7 +145,7 @@ public class PingProcessTests
         catch (AggregateException ex)
         {
             throw ex.Flatten().InnerException!;
-           
+
         }
     }
     [TestMethod]
@@ -156,7 +159,7 @@ public class PingProcessTests
         Assert.AreEqual(expectedLineCount, lineCount);
     }
 
-        [TestMethod]
+    [TestMethod]
     async public Task RunLongRunningAsync_UsingTpl_Success()
     {
         ProcessStartInfo startInfo = new("ping", $"{pingArgs} 4 localhost");
@@ -164,7 +167,7 @@ public class PingProcessTests
         int exitCode = await Sut.RunLongRunningAsync(startInfo, null, null, default);
 
         Assert.AreEqual(0, exitCode);
-    } 
+    }
 
     [TestMethod]
     public void StringBuilderAppendLine_InParallel_IsNotThreadSafe()
@@ -173,7 +176,7 @@ public class PingProcessTests
         System.Text.StringBuilder stringBuilder = new();
         numbers.AsParallel().ForAll(item => stringBuilder.AppendLine(""));
         int lineCount = stringBuilder.ToString().Split(Environment.NewLine).Length;
-        Assert.AreNotEqual(lineCount, numbers.Count()+1);
+        Assert.AreNotEqual(lineCount, numbers.Count() + 1);
     }
     //for unix 
     readonly string OutputExpressionLinux = @"
@@ -204,6 +207,9 @@ Approximate round trip times in milli-seconds:
     {
         Assert.IsFalse(string.IsNullOrWhiteSpace(stdOutput));
         stdOutput = WildcardPattern.NormalizeLineEndings(stdOutput!.Trim());
+        string pingOutputLikeExpression = isLinux ? OutputExpressionLinux : OutputExpressionWindows;
+        pingOutputLikeExpression = WildcardPattern.NormalizeLineEndings(pingOutputLikeExpression);
+
         Assert.IsTrue(stdOutput?.IsLike(pingOutputLikeExpression) ?? false,
             $"Output is unexpected: {stdOutput}");
         Assert.AreEqual<int>(0, exitCode);
@@ -211,3 +217,4 @@ Approximate round trip times in milli-seconds:
     private void AssertValidPingOutput(PingResult result) =>
         AssertValidPingOutput(result.ExitCode, result.StdOutput);
 }
+
