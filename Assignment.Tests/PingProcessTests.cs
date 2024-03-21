@@ -3,8 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Assignment.Tests;
 
@@ -12,9 +15,10 @@ namespace Assignment.Tests;
 public class PingProcessTests
 {
     PingProcess Sut { get; set; } = new();
-    bool isLinux { get; set; } 
+    bool isLinux { get; set; }
     string pingArgs { get; set; } = "";
     string pingOutputLikeExpression { get; set; } = "";
+
 
 
 
@@ -22,7 +26,7 @@ public class PingProcessTests
     public void TestInitialize()
     {
         isLinux = Environment.OSVersion.Platform is PlatformID.Unix;
-        (string arg, string exp) = isLinux ? ("-c", PingOutputLikeExpression) : ("-n", PingOutputLikeExpressionWindows);
+        (string arg, string exp) = isLinux ? ("-c", OutputExpressionLinux) : ("-n", OutputExpressionWindows);
         pingArgs = arg;
         pingOutputLikeExpression = exp;
         Sut = new();
@@ -39,6 +43,7 @@ public class PingProcessTests
      [TestMethod]
      public void Run_GoogleDotCom_Success()
      {
+        //for github actions 
         int expectedCode = Environment.GetEnvironmentVariable("GITHUB_ACTIONS") is null ? 1 : 0;
         int exitCode = Sut.Run("google.com").ExitCode;
          Assert.AreEqual<int>(expectedCode, exitCode);
@@ -150,7 +155,7 @@ public class PingProcessTests
     {
         // Pseudo Code - don't trust it!!!
         string[] hostNames = new string[] { "localhost", "localhost", "localhost", "localhost" };
-        int expectedLineCount = PingOutputLikeExpression.Split(Environment.NewLine).Length * hostNames.Length;
+        int expectedLineCount = pingOutputLikeExpression.Split(Environment.NewLine).Length * hostNames.Length;
         PingResult result = await Sut.RunAsync(hostNames);
         int lineCount = result.StdOutput!.Split(Environment.NewLine).Length;
         Assert.AreEqual(expectedLineCount, lineCount);
@@ -176,22 +181,25 @@ public class PingProcessTests
         Assert.AreNotEqual(lineCount, numbers.Count()+1);
     }
     //for unix 
-    readonly string PingOutputLikeExpression = @"
+    readonly string OutputExpressionLinux = @"
 PING * * bytes*
 64 bytes from * (*): icmp_seq=* ttl=* time=* ms
 64 bytes from * (*): icmp_seq=* ttl=* time=* ms
 64 bytes from * (*): icmp_seq=* ttl=* time=* ms
 64 bytes from * (*): icmp_seq=* ttl=* time=* ms
+
 --- * ping statistics ---
 * packets transmitted, * received, *% packet loss, time *ms
 rtt min/avg/max/mdev = */*/*/* ms
 ".Trim();
-    readonly string PingOutputLikeExpressionWindows = @"
+
+    readonly string OutputExpressionWindows = @"
 Pinging * with 32 bytes of data:
 Reply from ::1: time<*
 Reply from ::1: time<*
 Reply from ::1: time<*
 Reply from ::1: time<*
+
 Ping statistics for ::1:
     Packets: Sent = *, Received = *, Lost = 0 (0% loss),
 Approximate round trip times in milli-seconds:
@@ -201,7 +209,7 @@ Approximate round trip times in milli-seconds:
     {
         Assert.IsFalse(string.IsNullOrWhiteSpace(stdOutput));
         stdOutput = WildcardPattern.NormalizeLineEndings(stdOutput!.Trim());
-        Assert.IsTrue(stdOutput?.IsLike(PingOutputLikeExpression) ?? false,
+        Assert.IsTrue(stdOutput?.IsLike(pingOutputLikeExpression) ?? false,
             $"Output is unexpected: {stdOutput}");
         Assert.AreEqual<int>(0, exitCode);
     }
