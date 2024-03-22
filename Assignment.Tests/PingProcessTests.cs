@@ -15,15 +15,12 @@ namespace Assignment.Tests;
 public class PingProcessTests
 {
     PingProcess Sut { get; set; } = new();
-
+    //disabling nullable warnings again for testing purposes
 #pragma warning disable CS8618
     bool isLinux { get; set; }
     string pingArgs { get; set; }
-    string pingOutputLikeExpression { get; set; } = "";
+    string OutputExpression { get; set; } = "";
 #pragma warning restore CS8618
-
-
-
 
     [TestInitialize]
     public void TestInitialize()
@@ -31,7 +28,7 @@ public class PingProcessTests
         isLinux = Environment.OSVersion.Platform is PlatformID.Unix;
         (string arg, string exp) = isLinux ? ("-c", OutputExpressionLinux) : ("-n", OutputExpressionWindows);
         pingArgs = arg;
-        pingOutputLikeExpression = exp;
+        OutputExpression = exp;
         Sut = new();
     }
     [TestMethod]
@@ -153,7 +150,7 @@ public class PingProcessTests
     {
         // Pseudo Code - don't trust it!!!
         string[] hostNames = new string[] { "localhost", "localhost", "localhost", "localhost" };
-        int expectedLineCount = pingOutputLikeExpression.Split(Environment.NewLine).Length * hostNames.Length;
+        int expectedLineCount = OutputExpression.Split(Environment.NewLine).Length * hostNames.Length;
         PingResult result = await Sut.RunAsync(hostNames);
         int lineCount = result.StdOutput!.Split(Environment.NewLine).Length;
         Assert.AreEqual(expectedLineCount, lineCount);
